@@ -48,8 +48,6 @@ def add():
                 logging.info(f'{node}:  STATUS  [ERR]')
 
 
-
-
         # Concurrent fan out
         with concurrent.futures.ThreadPoolExecutor() as executor:
             futures = []
