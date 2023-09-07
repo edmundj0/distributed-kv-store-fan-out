@@ -1,9 +1,7 @@
 import os, time
 from collections import defaultdict
 from flask import Flask, request, Response
-import requests
-import logging
-import json
+import requests, logging, json, concurrent.futures
 
 import socket
 print(socket.gethostname())
@@ -24,6 +22,8 @@ def test():
     return 'test'
 
 
+
+#  Adds key value to dict
 @app.route("/add", methods=["POST"])
 def add():
     time.sleep(1)
@@ -37,7 +37,8 @@ def add():
 
     if not is_forwarded:
         logging.info([n for n in NODE_LIST if n.split(':')[-1] != PORT])
-        for node in [n for n in NODE_LIST if n.split(':')[-1] != PORT]:
+
+        def send_request(node, payload):
             try:
                 resp = requests.post(f'http://{node}/add', data=json.dumps(payload), headers={'Content-Type':'application/json'}, timeout=3)
 
@@ -46,10 +47,22 @@ def add():
                 logging.error(e)
                 logging.info(f'{node}:  STATUS  [ERR]')
 
-    return Response(
-        {},
-        status=200
-    )
+
+
+
+        # Concurrent fan out
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            futures = []
+            for node in [n for n in NODE_LIST if n.split(':')[-1] != PORT]:
+                futures.append(executor.submit(send_request, node, payload))
+
+            # logging.info(f'futures {futures}')
+            concurrent.futures.wait(futures)
+            # logging.info(f'futures after {futures}')
+
+
+    return Response({"message": "done"},status=200)
+
 
 @app.route("/get/<key>")
 def get(key):
