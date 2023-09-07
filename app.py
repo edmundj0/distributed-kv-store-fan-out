@@ -1,20 +1,13 @@
 import os, time
 from collections import defaultdict
 from flask import Flask, request, Response
-import requests
-import logging
-import json
-import concurrent.futures
+import requests, logging, json, concurrent.futures
 
 import socket
 print(socket.gethostname())
 
 logging.getLogger().setLevel(logging.INFO)
 
-# INFO
-# WARNING
-# DEBUG
-# ERROR
 
 PORT = os.getenv('PORT')
 
@@ -26,13 +19,10 @@ DATA_DICT = defaultdict(lambda x: -1)
 
 @app.route("/")
 def test():
-    # res = requests.get('127.0.0.1:5000/')
-    # print('aa', res)
     return 'test'
 
 
-# /add
-#  adds key value to dict
+#  Adds key value to dict
 @app.route("/add", methods=["POST"])
 def add():
     time.sleep(1)
@@ -77,22 +67,9 @@ def add():
 def get(key):
     return DATA_DICT[key]
 
-# /del
-#  deletes key from dict
-
-# /get
-#  gets value of key
-
-
-
 
 def run():
     app.run('0.0.0.0', port=PORT)
 
 if __name__ == '__main__':
-    #
-    #
-    #
-    #
-    #
     run()
