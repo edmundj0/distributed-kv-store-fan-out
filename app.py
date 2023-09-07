@@ -48,25 +48,25 @@ def add():
         logging.info([n for n in NODE_LIST if n.split(':')[-1] != PORT])
 
         def send_request(node, payload):
-            for node in [n for n in NODE_LIST if n.split(':')[-1] != PORT]:
-                try:
-                    resp = requests.post(f'http://{node}/add', data=json.dumps(payload), headers={'Content-Type':'application/json'}, timeout=3)
+            try:
+                resp = requests.post(f'http://{node}/add', data=json.dumps(payload), headers={'Content-Type':'application/json'}, timeout=3)
 
-                    logging.info(f'{node}:  STATUS  [OK], response:  {resp}')
-                except Exception as e:
-                    logging.error(e)
-                    logging.info(f'{node}:  STATUS  [ERR]')
+                logging.info(f'{node}:  STATUS  [OK], response:  {resp}')
+            except Exception as e:
+                logging.error(e)
+                logging.info(f'{node}:  STATUS  [ERR]')
 
 
 
         # Concurrent fan out
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            # futures = []
+            futures = []
             for node in [n for n in NODE_LIST if n.split(':')[-1] != PORT]:
-                # futures.append(executor.submit(send_request, node, payload))
-                executor.submit(send_request, node, payload)
+                futures.append(executor.submit(send_request, node, payload))
 
-            # concurrent.futures.wait(futures)
+            # logging.info(f'futures {futures}')
+            concurrent.futures.wait(futures)
+            # logging.info(f'futures after {futures}')
 
 
     return Response({"message": "done"},status=200)
