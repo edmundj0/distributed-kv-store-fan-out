@@ -1,0 +1,115 @@
+version: '3'
+
+services:
+  c1:
+    container_name: c1
+    hostname: c1
+    build: '.'
+    ports:
+      - '5002:5002'
+    environment:
+      - PORT=5002
+    networks:
+      - default
+
+  c2:
+    container_name: c2
+    hostname: c2
+    build: '.'
+    ports:
+      - '5003:5003'
+    environment:
+      - PORT=5003
+    networks:
+      - default
+
+  c3:
+    container_name: c3
+    hostname: c3
+    build: '.'
+    ports:
+      - '5004:5004'
+    environment:
+      - PORT=5004
+    networks:
+      - default
+
+  c4:
+    container_name: c4
+    hostname: c4
+    build: '.'
+    ports:
+      - '5005:5005'
+    environment:
+      - PORT=5005
+    networks:
+      - default
+
+  c5:
+    container_name: c5
+    hostname: c5
+    build: '.'
+    ports:
+      - '5006:5006'
+    environment:
+      - PORT=5006
+    networks:
+      - default
+
+  c6:
+    build: '.'
+    container_name: c6
+    hostname: c6
+    ports:
+      - '5007:5007'
+    environment:
+      - PORT=5007
+    networks:
+      - default
+
+  c7:
+    container_name: c7
+    hostname: c7
+    build: '.'
+    ports:
+      - '5008:5008'
+    environment:
+      - PORT=5008
+    networks:
+      - default
+
+  c8:
+    container_name: c8
+    hostname: c8
+    build: '.'
+    ports:
+      - '5009:5009'
+    environment:
+      - PORT=5009
+    networks:
+      - default
+
+  c9:
+    container_name: c9
+    hostname: c9
+    build: '.'
+    ports:
+      - '5010:5010'
+    environment:
+      - PORT=5010
+    networks:
+      - default
+
+  c10:
+    container_name: c10
+    hostname: c10
+    build: '.'
+    ports:
+      - '5011:5011'
+    environment:
+      - PORT=5011
+    networks:
+      - default
+
+networks:
+  default:
